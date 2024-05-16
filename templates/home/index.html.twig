@@ -1,0 +1,105 @@
+{# templates/home/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	{% if app.user and app.user.isVerified == false %}
+		<div class="alert alert-danger alert-dismissible fade show w-50 mx-auto mt-3" role="alert">
+			<strong>ATTENTION !</strong>
+			<p>Votre compte n'est pas encore vérifié, veuillez vérifier votre boite mail pour activer votre compte.</p>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		<!-- désactiver les liens -->
+		<style>
+			ul.disabled a {
+				cursor: not-allowed;
+				color: grey;
+			}
+		</style>
+		{# {% else %}
+						{% if app.user %}
+							<div class="alert alert-success alert-dismissible fade show w-50 mx-auto mt-3" role="alert">
+								<strong>Bravo !</strong>
+								<p>Votre compte est vérifié.</p>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						{% endif %} #}
+	{% endif %}
+
+	<div class="container home">
+		<h1>Bienvenue sur notre application</h1>
+		<p>Ceci est la page d'accueil de notre application Symfony.</p>
+		<p>Vous pouvez commencer par naviguer à travers les différentes fonctionnalités :</p>
+
+		{# Inscrivez vous ou connectez vous #}
+		{% if not app.user %}
+			<div class="flex connexion">
+				<ul>
+					<li><a href="{{path('app_register')}}">S'Inscrire</a></li>
+					<li><a href="{{path('app_login')}}">Se Connecter</a></li>
+				</ul>
+			</div>
+		{% endif %}
+
+		<!-- Si l'utilisateur est connecté -->
+		{% if app.user %}
+			<div class="flex">
+				<ul class="disabled">
+					<li>
+						<a href="{{ path('app_produits_index') }}">Liste des produits</a>
+					</li>
+					<li>
+						<a href="{{ path('app_distributeurs_index') }}">Liste des distributeurs</a>
+					</li>
+					<li>
+						<a href="{{ path('app_references_index') }}">Liste des références</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categories_index') }}">Liste des catégories</a>
+					</li>
+				</ul>
+				<ul class="disabled">
+					<li>
+						<a href="{{ path('app_produits_new') }}">Créer un nouveau produit</a>
+					</li>
+					<li>
+						<a href="{{ path('app_distributeurs_new') }}">Créer un nouveau distributeur</a>
+					</li>
+					<li>
+						<a href="{{ path('app_references_new') }}">Créer une nouvelle référence</a>
+					</li>
+					<li>
+						<a href="{{ path('app_categories_new') }}">Créer une nouvelle catégorie</a>
+					</li>
+				</ul>
+				<ul class="disabled">
+					<li>
+						<a href="{{ path('app_afficher_panier') }}">Afficher le panier</a>
+					</li>
+					<li>
+						<a href="{{ path('app_resume_commande') }}">Afficher les commandes</a>
+					</li>
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const closeButton = document.querySelector('.btn-close');
+if (closeButton) {
+closeButton.addEventListener('click', function () { // Trouvez l'élément parent de l'alerte
+const alert = this.closest('.alert');
+// Masquer l'alerte en ajoutant la classe 'd-none' si l'élément parent existe
+if (alert) {
+alert.classList.add('d-none');
+}
+});
+}
+});
+	</script>
+{% endblock %}

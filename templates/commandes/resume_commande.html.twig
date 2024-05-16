@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	{% if app.user.commandes|length > 0 %}
+		<h2 class="text-center text-success">Détails de votre commande</h2>
+		{% for commande in app.user.commandes %}
+			<div class="container bg-white shadow p-3 mt-3 rounded">
+				<p class="text-success">Référence de la commande :
+					{{commande.numeroCmd}}</p>
+				<p class="text-danger">Votre email :
+					{{commande.user.email}}</p>
+				<p class="text-success">Date de la commande :
+					{{commande.createdAt|date('d/m/Y')}}</p>
+				<form method="post" action="{{ path('app_supprimer_commande', {'id': commande.id}) }}" onsubmit="return confirm('Confirmer la suppression de la commande ?');">
+					<input type="hiden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
+					<button type="submit" class="btn btn-danger">Supprimer la commande</button>
+				</form>
+			</div>
+
+			<div class="row bg-white p-3 rounded shadow mt-3 w-50 mx-auto">
+				<h3 class="text-success text-center">Détails de votre commande</h3>
+				{% for details in details_commande[commande.id] %}
+					<div class="col-md-3 col-sm-12">
+						<h4 class="text-info">{{details.produits.name}}</h4>
+						<img src="{{ asset('uploads/images/' ~ details.produits.photos[0].name) }}" class="d-block w-50" alt="{{details.produits.name}}">
+						<div class="text-info">Quantité :
+							{{details.quantite}}</div>
+						<h5 class="text-success mt-3">Prix :{{details.prix}} €</h5>
+						{% set montant_total = details.prix * details.quantite %}
+						<h4 class="text-warning">Sous-total : {{montant_total}}€</h4>
+					</div>
+				{% endfor %}
+				<h2 class="text-uppercase text-success mt-3">TOTAL DE LA COMMANDE : {{total}} €</h2>
+				<a href="{{path('app_paiement_stripe', {numero_cmd: commande.numeroCmd}) }}" class="btn btn-primary">Payer la commande</a>
+			</div>
+		{% endfor %}
+	{% else %}
+		<div class="container bg-white shadow p-3 mt-3 rounded">
+			<h2 class="text-center text-danger">Aucune commande enregistrée</h2>
+		</div>
+	{% endif %}
+{% endblock %}

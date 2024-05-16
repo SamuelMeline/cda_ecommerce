@@ -3,3 +3,16 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+app_home: 
+    path: /
+    controller: App\Controller\HomeController::index
+
+admin_index:
+    path: /admin
+    controller: App\Controller\AdminController::index
+
+admin_update_role:
+    path: /admin/update-role/{id}
+    controller: App\Controller\AdminController::updateRole
+    methods: ['POST']

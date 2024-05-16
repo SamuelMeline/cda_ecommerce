@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Gestion des utilisateurs</h1>
+		{% for user in users %}
+			<form action="{{ path('admin_update_user', {'id': user.id}) }}" method="post">
+				<div class="mb-3">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+				</div>
+				<div class="mb-3">
+					<label for="role" class="form-label">Rôle</label>
+					<select id="role" class="form-select" name="role">
+						<option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %} selected {% endif %}>Utilisateur</option>
+						<option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %} selected {% endif %}>Admin</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary mb-3">Mettre à jour</button>
+			</form>
+		{% endfor %}
+		<a href="{{ path('app_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+	</div>
+{% endblock %}

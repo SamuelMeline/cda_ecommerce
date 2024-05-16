@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Success paiement commande
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-success">Paiement effectué avec succès</h1>
+        <p class="text-info">Votre paiement a été effectué avec succès. Vous recevrez un email de confirmation de votre commande.</p>
+        <a href="{{ path('app_produits_index') }}" class="btn btn-primary">Retour à la liste des produits</a>
+    </div>
+{% endblock %}
+

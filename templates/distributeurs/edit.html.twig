@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Distributeurs
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Edit Distributeurs</h1>
+
+		{{ include('distributeurs/_form.html.twig', {'button_label': 'Update'}) }}
+
+		<a class="btn btn-secondary mb-3" href="{{ path('app_distributeurs_index') }}">Retour a la liste</a>
+
+		{{ include('distributeurs/_delete_form.html.twig') }}
+	</div>
+{% endblock %}

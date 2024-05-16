@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white container">
+		<h2>Votre Panier</h2>
+		<table class="table table-hover table-striped mt-3 table-dark">
+			<thead>
+				<tr class="table-primary">
+					<th>Nom</th>
+					<th>Catégorie</th>
+					<th>Image</th>
+					<th>Description</th>
+					<th>Prix</th>
+					<th>Quantité(s)</th>
+					<th>Total</th>
+					<th>Soustraire</th>
+					<th>Ajouter</th>
+					<th>Supprimer</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for commande in panier %}
+					<tr>
+						<td>{{ commande.produit.name }}</td>
+						<td>{{ commande.produit.categorie.name }}</td>
+						<td>
+							<img src="{{ asset('uploads/images/' ~ commande.produit.photos[0].name) }}" class="d-block w-25" alt="{{ commande.produit.name }}">
+						</td>
+						<td>{{ commande.produit.description|raw }}</td>
+						<td>{{ commande.produit.price }}
+							€</td>
+						<td>{{ commande.quantity }}</td>
+						<td>{{ commande.produit.price * commande.quantity }}
+							€</td>
+						<td>
+							<a class="btn btn-warning" href="{{path('app_supprimer_quantite_panier', {id: commande.produit.id})}}">-</a>
+						</td>
+						<td>
+							<a class="btn btn-success" href="{{path('app_ajouter_quantite_panier', {id: commande.produit.id})}}">+</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href="{{path('app_supprimer_quantite_panier', {id: commande.produit.id})}}">X</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10">Votre panier est vide</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<h3 class="text-success">Total de la commande :
+			{{total}}
+			€</h3>
+		<a class="btn btn-secondary" href="{{path('app_vider_panier')}}">Vider le panier</a>
+		<hr>
+		<a class="btn btn-success" href="{{path('app_valider_commandes')}}">Valider la commande</a>
+		<hr>
+		<a class="btn btn-secondary" href="{{path('app_produits_index')}}">Retour a la liste</a>
+	</div>
+{% endblock %}

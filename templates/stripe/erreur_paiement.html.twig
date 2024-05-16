@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Erreur paiement commande
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-danger">Erreur paiement</h1>
+        <p class="text-info">Votre paiement n'a pas été effectué. Veuillez réessayer.</p>
+        <a href="{{ path('app_produits_index') }}" class="btn btn-primary">Retour à la liste des produits</a>
+    </div>
+{% endblock %}
+

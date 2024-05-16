@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Distributeurs
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Distributeurs</h1>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ distributeur.id }}</td>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<td>{{ distributeur.name }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a class="btn btn-secondary mb-3" href="{{ path('app_distributeurs_index') }}">Retour a la liste</a>
+
+		<a class="btn btn-warning mb-3" href="{{ path('app_distributeurs_edit', {'id': distributeur.id}) }}">Modifier</a>
+
+		{{ include('distributeurs/_delete_form.html.twig') }}
+	</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page not found
+{% endblock %}
+
+{% block body %}
+	<div class="alert alert-danger mt-5 w-50 mx-auto">
+		<h2>Page introuvable !</h2>
+		<em>Erreur 404</em>
+		<div>
+        <a href="{{path('app_home') }}" class="btn btn-warning mt-3">Retour a la page d'acceuil</a>
+        </div>
+	</div>
+{% endblock %}

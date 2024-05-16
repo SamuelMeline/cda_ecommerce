@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Distributeurs index
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Liste des distributeurs</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for distributeur in distributeurs %}
+					<tr>
+						<td>{{ distributeur.id }}</td>
+						<td>{{ distributeur.name }}</td>
+						<td>
+							<div class="flex">
+								<a class="btn btn-info" href="{{ path('app_distributeurs_show', {'id': distributeur.id}) }}">Voir</a>
+								<a class="btn btn-warning" href="{{ path('app_distributeurs_edit', {'id': distributeur.id}) }}">Modifier</a>
+								{{ include('distributeurs/_delete_form.html.twig') }}
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a class="btn btn-success" href="{{ path('app_distributeurs_new') }}">Créer un distributeur</a>
+		<!-- Retour a la home -->
+		<a class="btn btn-secondary" href="{{ path('app_home') }}">Retour à l'accueil</a>
+	</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}References index
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Liste des références</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for reference in references %}
+					<tr>
+						<td>{{ reference.id }}</td>
+						<td>{{ reference.name }}</td>
+						<td>
+							<div class="flex">
+								<a class="btn btn-info" href="{{ path('app_references_show', {'id': reference.id}) }}">Voir</a>
+								<a class="btn btn-warning" href="{{ path('app_references_edit', {'id': reference.id}) }}">Modifier</a>
+								{{ include('references/_delete_form.html.twig') }}
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3">Aucune référence</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a class="btn btn-success" href="{{ path('app_references_new') }}">Créer une référence</a>
+		<!-- Retour a la home -->
+		<a class="btn btn-secondary" href="{{ path('app_home') }}">Retour à l'accueil</a>
+	</div>
+{% endblock %}
