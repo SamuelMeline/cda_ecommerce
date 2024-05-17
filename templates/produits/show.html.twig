@@ -25,14 +25,23 @@
 					<th>Images</th>
 					<td>
 						<div>
-							{% for image in produit.photos %}
-								<div class="bg-warning p-3 mt-3">
-									<div>
-										<a href="{{ path('app_produits_supprimer_image', {id: produit.id, imageID: image.id}) }}" class="btn btn-danger">X</a>
-									</div>
-									<img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-25" alt="{{ produit.name }}">
+							<div id="carouselExampleAutoplaying{{ produit.id }}" class="carousel slide" data-bs-ride="carousel">
+								<div class="carousel-inner">
+									{% for image in produit.photos %}
+										<div class="carousel-item {% if loop.first %}active{% endif %}">
+											<img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-50" alt="{{ produit.name }}">
+										</div>
+									{% endfor %}
 								</div>
-							{% endfor %}
+								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying{{ produit.id }}" data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="sr-only">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying{{ produit.id }}" data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+								</button>
+							</div>
 							{% if produit.photos is empty %}
 								<span>Aucune photo disponible</span>
 							{% endif %}
