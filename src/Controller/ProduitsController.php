@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommentairesRepository;
 use App\Repository\DistributeursRepository;
 use App\Repository\PhotosRepository;
+use App\Security\Voter\ProduitsVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/produits')]
 class ProduitsController extends AbstractController
@@ -108,6 +110,7 @@ class ProduitsController extends AbstractController
         ]);
     }
 
+    #[IsGranted(ProduitsVoter::EDIT, subject: 'produit')]
     #[Route('/{id}/edit', name: 'app_produits_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produits $produit, EntityManagerInterface $entityManager, SimpleUploadService $simpleUploadService): Response
     {

@@ -2,12 +2,20 @@
 
 namespace App\Entity;
 
+use App\Traits\DateTrait;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 use App\Repository\CategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
+#[ApiResource(operations: [new Get(normalizationContext: ['groups' => 'produits:item']), new GetCollection(normalizationContext: ['groups' => 'add:list'])])]
 class Categories
 {
     #[ORM\Id]
@@ -16,6 +24,7 @@ class Categories
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produits:item', 'add:list'])]
     private ?string $name = null;
 
     /**

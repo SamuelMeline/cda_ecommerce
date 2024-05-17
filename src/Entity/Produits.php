@@ -2,19 +2,25 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ProduitsRepository;
 use App\Traits\DateTrait;
+use ApiPlatform\Metadata\Get;
+use Doctrine\DBAL\Types\Types;
+
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ProduitsRepository;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 #[ORM\Entity(repositoryClass: ProduitsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['name'], message: 'Ce produit existe déjà')]
+#[ApiResource(operations: [new Get(normalizationContext: ['groups' => 'produits:item']), new GetCollection(normalizationContext: ['groups' => 'add:list'])])]
 class Produits
 {
     use DateTrait;
@@ -22,38 +28,46 @@ class Produits
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produits:item', 'add:list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255, minMessage: 'Le nom doit contenir au moins 3 caractères', maxMessage: 'Le nom doit contenir au plus 255 caractères')]
+    #[Groups(['produits:item', 'add:list'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 10, minMessage: 'La description doit contenir au moins 10 caractères')]
+    #[Groups(['produits:item', 'add:list'])]
     private ?string $description = null;
 
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\PositiveOrZero]
+    #[Groups(['produits:item', 'add:list'])]
     private ?float $price = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(['produits:item', 'add:list'])]
     private ?string $slug = null;
 
 
     #[ORM\OneToOne(targetEntity: Reference::class, inversedBy: 'produits', cascade: ['persist', 'remove'])]
+    #[Groups(['produits:item', 'add:list'])]
     private ?Reference $reference = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[Groups(['produits:item', 'add:list'])]
     private ?Categories $categorie = null;
 
     /**
      * @var Collection<int, Distributeurs>
      */
     #[ORM\ManyToMany(targetEntity: Distributeurs::class, inversedBy: 'produits')]
+    #[Groups(['produits:item', 'add:list'])]
     private Collection $distributeur;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]

@@ -26,7 +26,7 @@ class ProduitsCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name', 'Nom du produit'),
-            TextEditorField::new('description'),
+            TextField::new('description'),
             CollectionField::new('photos', 'Photos')
                 ->useEntryCrudForm(PhotosCrudController::class)
                 ->setFormTypeOptions([
